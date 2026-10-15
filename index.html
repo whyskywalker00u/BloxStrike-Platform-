@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBX TOURNAMENTS — Official BlockStrike Competitive Platform</title>
+    <meta name="description" content="Официальная турнирная платформа RBX BloxStrike. Турниры по Roblox, расписание матчей, сетки, рейтинг команд и регистрация.">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f1218;
+            --bg-card: #181c25;
+            --bg-card-hover: #1f2532;
+            --bg-header: #131720;
+            --border-color: #272f3f;
+            --accent-blue: #3b82f6;
+            --accent-blue-hover: #2563eb;
+            --accent-yellow: #f59e0b;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --badge-bg: #1e293b;
+            --shadow-color: rgba(0,0,0,0.4);
+            --logo-bg: #000000;
+            --logo-fg: #ffffff;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f9fafb;
+            --bg-header: #ffffff;
+            --border-color: #e5e7eb;
+            --accent-blue: #d97706;
+            --accent-blue-hover: #b45309;
+            --accent-yellow: #d97706;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #9ca3af;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --badge-bg: #fef3c7;
+            --shadow-color: rgba(0,0,0,0.08);
+            --logo-bg: #ffffff;
+            --logo-fg: #111827;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        /* HEADER */
+        header {
+            background-color: var(--bg-header);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-svg-wrapper {
+            width: 48px;
+            height: 48px;
+            background: var(--logo-bg);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .brand-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--bg-card-hover);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .nav-btn.active {
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .icon-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .lang-btn {
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0 0.5rem;
+            width: auto;
+            gap: 0.3rem;
+        }
+
+        .admin-trigger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .admin-trigger:hover {
+            background: var(--danger-color);
+            color: #fff;
+        }
+
+        /* MAIN LAYOUT */
+        .container {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* BANNER ANNOUNCEMENT */
+        .announcement-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .announcement-info h2 {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .announcement-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .announcement-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .stat-box {
+            text-align: center;
+            background: var(--bg-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-val {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .tg-join-btn {
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tg-join-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* GRID SECTIONS */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* TAB SECTIONS */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* MATCH CARDS */
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .match-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .match-card:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .team-info.right {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        .team-flag {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+        }
+
+        .team-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .match-score {
+            background: var(--bg-main);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 800;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            border: 1px solid var(--border-color);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .match-meta {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .badge-live {
+            background: var(--danger-color);
+            color: white;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* BRACKET */
+        .bracket-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .bracket-round {
+            flex: 1;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: space-around;
+        }
+
+        .round-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.3rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bracket-match {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .bracket-team {
+            padding: 0.5rem 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bracket-team:last-child {
+            border-bottom: none;
+        }
+
+        .bracket-team.winner {
+            color: var(--success-color);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* REGISTRATION FORM */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .btn-submit {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-blue-hover);
+        }
+
+        /* SUPPORT TICKET SYSTEM */
+        .chat-box {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .chat-msg {
+            max-width: 80%;
+            padding: 0.6rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+
+        .chat-msg.user {
+            background: var(--accent-blue);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-msg.admin {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-header);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo-box" onclick="switchTab('matches')">
+                <div class="logo-svg-wrapper">
+                    <!-- SVG LOGO EXACT REPLICA -->
+                    <svg viewBox="0 0 100 100" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" fill="var(--logo-bg)"/>
+                        <path d="M 10 10 L 30 10 L 10 30 Z" fill="var(--logo-fg)"/>
+                        <line x1="10" y1="40" x2="40" y2="10" stroke="var(--logo-fg)" stroke-width="5"/>
+                        <line x1="10" y1="60" x2="60" y2="10" stroke="var(--logo-fg)" stroke-width="5"/>
+                        <line x1="10" y1="80" x2="80" y2="10" stroke="var(--logo-fg)" stroke-width="5"/>
+                        <text x="30" y="82" font-family="'Teko', sans-serif" font-size="34" font-weight="700" fill="var(--logo-fg)">RBX</text>
+                    </svg>
+                </div>
+                <div>
+                    <div class="brand-title">RBX BLOXSTRIKE</div>
+                    <div class="brand-subtitle">TOURNAMENT PLATFORM</div>
+                </div>
+            </a>
+
+            <nav>
+                <button class="nav-btn active" onclick="switchTab('matches')" id="nav-matches"><i class="fa-solid fa-gamepad"></i> <span data-i18n="navMatches">Матчи</span></button>
+                <button class="nav-btn" onclick="switchTab('bracket')" id="nav-bracket"><i class="fa-solid fa-sitemap"></i> <span data-i18n="navBracket">Сетка</span></button>
+                <button class="nav-btn" onclick="switchTab('register')" id="nav-register"><i class="fa-solid fa-user-plus"></i> <span data-i18n="navRegister">Регистрация</span></button>
+                <button class="nav-btn" onclick="switchTab('rules')" id="nav-rules"><i class="fa-solid fa-scroll"></i> <span data-i18n="navRules">Регламент</span></button>
+                <button class="nav-btn" onclick="switchTab('support')" id="nav-support"><i class="fa-solid fa-headset"></i> <span data-i18n="navSupport">Поддержка</span></button>
+            </nav>
+
+            <div class="controls-group">
+                <button class="icon-btn lang-btn" onclick="toggleLanguage()" id="langBtn">🇷🇺 RU</button>
+                <button class="icon-btn" onclick="toggleTheme()" title="Сменить тему"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+                <button class="icon-btn admin-trigger" onclick="openAdminModal()" title="Панель администратора"><i class="fa-solid fa-lock"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+        <!-- BANNER ANNOUNCEMENT -->
+        <div class="announcement-card">
+            <div class="announcement-info">
+                <h2 id="announcementTitle">🔥 RBX TOURNAMENTS — REGISTRATION IS OPEN!</h2>
+                <p id="announcementSub">Первый официальный турнир по BlockStrike с призовым фондом в ROBUX!</p>
+            </div>
+            <div class="announcement-stats">
+                <div class="stat-box">
+                    <div class="stat-val" id="prizeDisplay">1,500 R$</div>
+                    <div class="stat-lbl" data-i18n="lblPrize">Призовой фонд</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val" id="teamsDisplay">0 / 16</div>
+                    <div class="stat-lbl" data-i18n="lblTeams">Команд</div>
+                </div>
+                <a href="https://t.me/RBX_Blox_strike" target="_blank" class="tg-join-btn">
+                    <i class="fa-brands fa-telegram"></i> Telegram
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTENT GRID -->
+        <div class="content-grid">
+            
+            <!-- LEFT MAIN CONTENT -->
+            <main>
+                <!-- TAB 1: MATCHES -->
+                <section id="tab-matches" class="tab-content active">
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-trophy" style="color: var(--accent-yellow);"></i> <span data-i18n="titleMatches">Текущие & Предстоящие Матчи</span></div>
+                    </div>
+                    <div class="match-list" id="matchesList">
+                        <!-- Dynamic Matches Rendered via JS -->
+                    </div>
+                </section>
+
+                <!-- TAB 2: BRACKET -->
+                <section id="tab-bracket" class="tab-content">
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-sitemap" style="color: var(--accent-blue);"></i> <span data-i18n="titleBracket">Турнирная Сетка (16 Команд)</span></div>
+                    </div>
+                    <div class="bracket-container" id="bracketContainer">
+                        <!-- Dynamic Bracket Rendered via JS -->
+                    </div>
+                </section>
+
+                <!-- TAB 3: REGISTER -->
+                <section id="tab-register" class="tab-content">
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-file-pen" style="color: var(--success-color);"></i> <span data-i18n="titleRegister">Регистрация Команды</span></div>
+                    </div>
+                    <div class="form-card">
+                        <form id="registrationForm" onsubmit="handleRegistration(event)">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="formTeamName">Название Команды</label>
+                                <input type="text" class="form-input" id="regTeamName" required placeholder="Например: Alpha Squad">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="formCaptainTg">Telegram Капитана (@username)</label>
+                                <input type="text" class="form-input" id="regCaptainTg" required placeholder="@captain_nick">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="formRoster">Состав команды (5 Roblox никнеймов)</label>
+                                <textarea class="form-textarea" id="regRoster" rows="4" required placeholder="1. Captain_Roblox&#10;2. Player2&#10;3. Player3&#10;4. Player4&#10;5. Player5"></textarea>
+                            </div>
+                            <div class="form-group" style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="checkbox" id="regTgSub" required style="width: 18px; height: 18px;">
+                                <label for="regTgSub" style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="formTgConfirm">
+                                    Все участники команды подписаны на официальный Telegram-канал
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-submit" data-i18n="btnSubmitReg">Отправить Заявку</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- TAB 4: RULES -->
+                <section id="tab-rules" class="tab-content">
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-book" style="color: var(--accent-yellow);"></i> <span data-i18n="titleRules">Официальный Регламент</span></div>
+                    </div>
+                    <div class="form-card" id="rulesContent" style="white-space: pre-line; line-height: 1.7; font-size: 0.95rem;">
+                        <!-- Rules Loaded via JS -->
+                    </div>
+                </section>
+
+                <!-- TAB 5: SUPPORT -->
+                <section id="tab-support" class="tab-content">
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-headset" style="color: var(--accent-blue);"></i> <span data-i18n="titleSupport">Служба Поддержки</span></div>
+                    </div>
+                    <div class="form-card">
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;" data-i18n="supportInfo">
+                            Есть вопросы по турниру или возникли проблемы во время матча? Напишите администрации.
+                        </p>
+                        <div class="chat-box" id="supportChatBox">
+                            <!-- Messages -->
+                        </div>
+                        <form onsubmit="sendSupportMessage(event)" style="display: flex; gap: 0.5rem;">
+                            <input type="text" class="form-input" id="supportMsgInput" placeholder="Введите ваше сообщение..." required>
+                            <button type="submit" class="btn-submit" style="width: auto; padding: 0 1.5rem;"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </section>
+            </main>
+
+            <!-- RIGHT SIDEBAR -->
+            <aside>
+                <!-- TOP RANKINGS -->
+                <div class="section-header">
+                    <div class="section-title" style="font-size: 1.4rem;"><i class="fa-solid fa-ranking-star" style="color: var(--accent-yellow);"></i> <span data-i18n="titleRankings">Топ Команд</span></div>
+                </div>
+                <div class="form-card" style="padding: 0.75rem; margin-bottom: 2rem;">
+                    <div id="rankingsList" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <!-- Dynamic Rankings -->
+                    </div>
+                </div>
+
+                <!-- QUICK RULES SUMMARY -->
+                <div class="section-header">
+                    <div class="section-title" style="font-size: 1.4rem;"><i class="fa-solid fa-circle-info" style="color: var(--accent-blue);"></i> <span data-i18n="titleInfo">Информация</span></div>
+                </div>
+                <div class="form-card" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                    <p><strong>Формат:</strong> Single Elimination, BO3</p>
+                    <p><strong>Режим:</strong> BloxStrike (Roblox)</p>
+                    <p><strong>Призовые:</strong> 1 место — 1000 R$, 2 место — 500 R$</p>
+                    <p><strong>Дисциплина:</strong> За читы и неодекватность — дисквалификация!</p>
+                </div>
+            </aside>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <strong>RBX BLOXSTRIKE PLATFORM</strong> &copy; 2026. All rights reserved.
+            </div>
+            <div>
+                Official Telegram: <a href="https://t.me/RBX_Blox_strike" target="_blank" style="color: var(--accent-blue); text-decoration: none;">t.me/RBX_Blox_strike</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ADMIN MODAL -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="font-family: 'Teko', sans-serif; font-size: 1.8rem;" id="adminModalTitle">Панель Администратора</h3>
+                <button class="icon-btn" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- LOGIN FORM -->
+            <div id="adminLoginForm">
+                <div class="form-group">
+                    <label class="form-label">Пароль Администратора</label>
+                    <input type="password" class="form-input" id="adminPassword" placeholder="Пароль (по умолчанию: admin123)">
+                </div>
+                <button class="btn-submit" onclick="loginAdmin()">Войти в систему</button>
+            </div>
+
+            <!-- ADMIN DASHBOARD PANEL -->
+            <div id="adminDashboard" style="display: none;">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; overflow-x: auto;">
+                    <button class="nav-btn active" onclick="switchAdminTab('m')" id="atab-m">Матчи</button>
+                    <button class="nav-btn" onclick="switchAdminTab('r')" id="atab-r">Заявки</button>
+                    <button class="nav-btn" onclick="switchAdminTab('s')" id="atab-s">Настройки</button>
+                </div>
+
+                <!-- ADMIN MATCHES TAB -->
+                <div id="adminTab-m">
+                    <h4 style="margin-bottom: 0.5rem;">Добавить/Изменить Матч</h4>
+                    <form onsubmit="saveMatchAdmin(event)" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;">
+                        <input type="hidden" id="admMatchId">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" class="form-input" id="admMTeam1" placeholder="Команда 1" required>
+                            <input type="text" class="form-input" id="admMTeam2" placeholder="Команда 2" required>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" class="form-input" id="admMScore" placeholder="Счет (например: 2 - 1)" value="0 - 0">
+                            <select class="form-select" id="admMStatus">
+                                <option value="Предстоящий">Предстоящий</option>
+                                <option value="LIVE">LIVE</option>
+                                <option value="Завершен">Завершен</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-input" id="admMTime" placeholder="Время (например: Сегодня 18:00)" required>
+                        <button type="submit" class="btn-submit">Сохранить Матч</button>
+                    </form>
+                    <div id="adminMatchesList" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+                </div>
+
+                <!-- ADMIN REGISTRATIONS TAB -->
+                <div id="adminTab-r" style="display: none;">
+                    <h4>Поступившие Заявки</h4>
+                    <div id="adminRegsList" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;"></div>
+                </div>
+
+                <!-- ADMIN SETTINGS TAB -->
+                <div id="adminTab-s" style="display: none;">
+                    <h4>Общие Настройки Турнира</h4>
+                    <form onsubmit="saveSettingsAdmin(event)" style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+                        <div>
+                            <label class="form-label">Призовой фонд</label>
+                            <input type="text" class="form-input" id="admPrize" value="1,500 R$">
+                        </div>
+                        <div>
+                            <label class="form-label">Количество команд</label>
+                            <input type="text" class="form-input" id="admTeamsCount" value="0 / 16">
+                        </div>
+                        <div>
+                            <label class="form-label">Заголовок анонса</label>
+                            <input type="text" class="form-input" id="admAnnTitle" value="🔥 RBX TOURNAMENTS — REGISTRATION IS OPEN!">
+                        </div>
+                        <button type="submit" class="btn-submit">Сохранить Настройки</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // INITIAL STATE
+        let currentLang = 'RU';
+        let isAdminLoggedIn = false;
+
+        const defaultData = {
+            matches: [
+                { id: 1, team1: "Alpha Squad", team2: "Dark Wolves", score: "2 - 0", status: "Завершен", time: "25 Окт, 16:00" },
+                { id: 2, team1: "Blox Kings", team2: "Phoenix BS", score: "1 - 1", status: "LIVE", time: "Прямой эфир" },
+                { id: 3, team1: "Cyber Clan", team2: "Storm Gaming", score: "VS", status: "Предстоящий", time: "25 Окт, 18:30" }
+            ],
+            rankings: [
+                { name: "Alpha Squad", pts: 1250 },
+                { name: "Blox Kings", pts: 1100 },
+                { name: "Phoenix BS", pts: 950 },
+                { name: "Dark Wolves", pts: 820 }
+            ],
+            registrations: [],
+            supportMessages: [
+                { sender: "admin", text: "Здравствуйте! Добро пожаловать в поддержку RBX TOURNAMENTS." }
+            ],
+            settings: {
+                prize: "1,500 R$",
+                teamsCount: "4 / 16",
+                annTitle: "🔥 RBX TOURNAMENTS — REGISTRATION IS OPEN!"
+            },
+            rules: `Регламент турнира RBX tournament 1
+Игра: Roblox, режим Blox Strike
+Формат: Single Elimination, BO3
+Участие: бесплатное
+
+1. Общие положения
+1.1. Турнир «RBX tournament 1» проводится по режиму Blox Strike в Roblox.
+1.2. Вход в турнир бесплатный.
+
+2. Призовой фонд
+Общий призовой фонд: 1500 Robux.
+• 1 место: 1000 Robux
+• 2 место: 500 Robux
+
+3. Чит-код и правила
+3.1. Запрещено использовать любые читы, эксплойты и макросы.
+3.2. Каждый матч отслеживается администратором в режиме наблюдателя.`
+        };
+
+        // LOCAL STORAGE MANAGEMENT
+        function loadAppData() {
+            const saved = localStorage.getItem('rbx_app_data');
+            return saved ? JSON.parse(saved) : defaultData;
+        }
+
+        function saveAppData(data) {
+            localStorage.setItem('rbx_app_data', JSON.stringify(data));
+            renderApp();
+        }
+
+        let appData = loadAppData();
+
+        // I18N DICTIONARY
+        const i18n = {
+            RU: {
+                navMatches: "Матчи",
+                navBracket: "Сетка",
+                navRegister: "Регистрация",
+                navRules: "Регламент",
+                navSupport: "Поддержка",
+                lblPrize: "Призовой фонд",
+                lblTeams: "Команд",
+                titleMatches: "Текущие & Предстоящие Матчи",
+                titleBracket: "Турнирная Сетка (16 Команд)",
+                titleRegister: "Регистрация Команды",
+                titleRules: "Официальный Регламент",
+                titleSupport: "Служба Поддержки",
+                titleRankings: "Топ Команд",
+                titleInfo: "Информация",
+                formTeamName: "Название Команды",
+                formCaptainTg: "Telegram Капитана (@username)",
+                formRoster: "Состав команды (5 Roblox никнеймов)",
+                formTgConfirm: "Все участники команды подписаны на официальный Telegram-канал",
+                btnSubmitReg: "Отправить Заявку",
+                supportInfo: "Есть вопросы по турниру или возникли проблемы во время матча? Напишите администрации."
+            },
+            EN: {
+                navMatches: "Matches",
+                navBracket: "Bracket",
+                navRegister: "Register",
+                navRules: "Rules",
+                navSupport: "Support",
+                lblPrize: "Prize Pool",
+                lblTeams: "Teams",
+                titleMatches: "Current & Upcoming Matches",
+                titleBracket: "Tournament Bracket (16 Teams)",
+                titleRegister: "Team Registration",
+                titleRules: "Official Rules",
+                titleSupport: "Support Center",
+                titleRankings: "Top Teams",
+                titleInfo: "Information",
+                formTeamName: "Team Name",
+                formCaptainTg: "Captain's Telegram (@username)",
+                formRoster: "Team Roster (5 Roblox Usernames)",
+                formTgConfirm: "All team members are subscribed to the official Telegram channel",
+                btnSubmitReg: "Submit Application",
+                supportInfo: "Have questions or issues regarding the tournament? Contact the official support team."
+            }
+        };
+
+        // UI NAVIGATION
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+        }
+
+        // THEME TOGGLE
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            document.getElementById('themeIcon').className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
+
+        // LANGUAGE TOGGLE
+        function toggleLanguage() {
+            currentLang = currentLang === 'RU' ? 'EN' : 'RU';
+            document.getElementById('langBtn').innerText = currentLang === 'RU' ? '🇷🇺 RU' : '🇬🇧 EN';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.innerText = i18n[currentLang][key];
+                }
+            });
+        }
+
+        // RENDER METHOD
+        function renderApp() {
+            // Render Settings
+            document.getElementById('prizeDisplay').innerText = appData.settings.prize;
+            document.getElementById('teamsDisplay').innerText = appData.settings.teamsCount;
+            document.getElementById('announcementTitle').innerText = appData.settings.annTitle;
+            document.getElementById('rulesContent').innerText = appData.rules;
+
+            // Render Matches
+            const matchesContainer = document.getElementById('matchesList');
+            matchesContainer.innerHTML = '';
+            appData.matches.forEach(m => {
+                const matchCard = document.createElement('div');
+                matchCard.className = 'match-card';
+                matchCard.innerHTML = `
+                    <div class="team-info">
+                        <div class="team-flag">${m.team1.substring(0, 2).toUpperCase()}</div>
+                        <div class="team-name">${m.team1}</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div class="match-score">${m.score}</div>
+                        <div class="match-meta">
+                            ${m.status === 'LIVE' ? '<span class="badge-live">LIVE</span>' : m.time}
+                        </div>
+                    </div>
+                    <div class="team-info right">
+                        <div class="team-name">${m.team2}</div>
+                        <div class="team-flag">${m.team2.substring(0, 2).toUpperCase()}</div>
+                    </div>
+                `;
+                matchesContainer.appendChild(matchCard);
+            });
+
+            // Render Bracket
+            const bracketContainer = document.getElementById('bracketContainer');
+            bracketContainer.innerHTML = `
+                <div class="bracket-round">
+                    <div class="round-title">1/8 ФИНАЛА</div>
+                    <div class="bracket-match"><div class="bracket-team winner">Alpha Squad <span>2</span></div><div class="bracket-team">Dark Wolves <span>0</span></div></div>
+                    <div class="bracket-match"><div class="bracket-team winner">Blox Kings <span>2</span></div><div class="bracket-team">Phoenix BS <span>1</span></div></div>
+                </div>
+                <div class="bracket-round">
+                    <div class="round-title">1/4 ФИНАЛА</div>
+                    <div class="bracket-match"><div class="bracket-team">Alpha Squad <span>-</span></div><div class="bracket-team">Blox Kings <span>-</span></div></div>
+                </div>
+                <div class="bracket-round">
+                    <div class="round-title">ФИНАЛ</div>
+                    <div class="bracket-match"><div class="bracket-team">TBD <span>-</span></div><div class="bracket-team">TBD <span>-</span></div></div>
+                </div>
+            `;
+
+            // Render Rankings
+            const rankContainer = document.getElementById('rankingsList');
+            rankContainer.innerHTML = '';
+            appData.rankings.forEach((r, idx) => {
+                rankContainer.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.4rem; background: var(--bg-main); border-radius: 4px;">
+                        <div><strong style="color:var(--accent-yellow);">#${idx + 1}</strong> ${r.name}</div>
+                        <div style="font-weight:700; font-size: 0.85rem;">${r.pts} pts</div>
+                    </div>
+                `;
+            });
+
+            // Render Support
+            const chatBox = document.getElementById('supportChatBox');
+            chatBox.innerHTML = '';
+            appData.supportMessages.forEach(msg => {
+                chatBox.innerHTML += `<div class="chat-msg ${msg.sender}">${msg.text}</div>`;
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // REGISTRATION
+        function handleRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('regTeamName').value;
+            const tg = document.getElementById('regCaptainTg').value;
+            const roster = document.getElementById('regRoster').value;
+
+            appData.registrations.push({ name, tg, roster, date: new Date().toLocaleDateString() });
+            saveAppData(appData);
+
+            alert("Заявка успешно отправлена! Ожидайте подтверждения в Telegram.");
+            document.getElementById('registrationForm').reset();
+        }
+
+        // SUPPORT CHAT
+        function sendSupportMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('supportMsgInput');
+            if(!input.value.trim()) return;
+
+            appData.supportMessages.push({ sender: 'user', text: input.value });
+            saveAppData(appData);
+            input.value = '';
+        }
+
+        // ADMIN MODAL LOGIC
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+
+        function loginAdmin() {
+            const pass = document.getElementById('adminPassword').value;
+            if(pass === 'admin123') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginForm').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                renderAdminMatches();
+                renderAdminRegs();
+            } else {
+                alert('Неверный пароль администратора!');
+            }
+        }
+
+        function switchAdminTab(tab) {
+            document.getElementById('adminTab-m').style.display = tab === 'm' ? 'block' : 'none';
+            document.getElementById('adminTab-r').style.display = tab === 'r' ? 'block' : 'none';
+            document.getElementById('adminTab-s').style.display = tab === 's' ? 'block' : 'none';
+        }
+
+        function saveMatchAdmin(e) {
+            e.preventDefault();
+            const t1 = document.getElementById('admMTeam1').value;
+            const t2 = document.getElementById('admMTeam2').value;
+            const score = document.getElementById('admMScore').value;
+            const status = document.getElementById('admMStatus').value;
+            const time = document.getElementById('admMTime').value;
+
+            appData.matches.push({ id: Date.now(), team1: t1, team2: t2, score, status, time });
+            saveAppData(appData);
+            renderAdminMatches();
+            alert("Матч успешно сохранён!");
+        }
+
+        function renderAdminMatches() {
+            const list = document.getElementById('adminMatchesList');
+            list.innerHTML = '';
+            appData.matches.forEach((m, idx) => {
+                list.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-main); padding:0.5rem; border-radius:4px;">
+                        <span>${m.team1} vs ${m.team2} (${m.score})</span>
+                        <button onclick="deleteMatch(${idx})" style="background:var(--danger-color); color:white; border:none; padding:0.2rem 0.5rem; border-radius:3px; cursor:pointer;">X</button>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteMatch(idx) {
+            appData.matches.splice(idx, 1);
+            saveAppData(appData);
+            renderAdminMatches();
+        }
+
+        function renderAdminRegs() {
+            const list = document.getElementById('adminRegsList');
+            list.innerHTML = '';
+            if(appData.registrations.length === 0) {
+                list.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted);">Заявок пока нет.</p>';
+                return;
+            }
+            appData.registrations.forEach(r => {
+                list.innerHTML += `
+                    <div style="background:var(--bg-main); padding:0.5rem; border-radius:4px; font-size:0.85rem;">
+                        <strong>${r.name}</strong> (${r.tg})<br>
+                        <pre style="font-family:inherit; color:var(--text-secondary);">${r.roster}</pre>
+                    </div>
+                `;
+            });
+        }
+
+        function saveSettingsAdmin(e) {
+            e.preventDefault();
+            appData.settings.prize = document.getElementById('admPrize').value;
+            appData.settings.teamsCount = document.getElementById('admTeamsCount').value;
+            appData.settings.annTitle = document.getElementById('admAnnTitle').value;
+            saveAppData(appData);
+            alert("Настройки обновлены!");
+        }
+
+        // INIT
+        renderApp();
+    </script>
+</body>
+</html>
